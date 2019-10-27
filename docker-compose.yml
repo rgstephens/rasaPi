@@ -1,0 +1,33 @@
+# docker-compose up -d
+# docker-compose run rasa-x bash
+# docker-compose exec rasa-x bash
+version: "3.4"
+
+services:
+  rasa-x:
+    image: "rasax:${RASA_X_VERSION}"
+    build:
+      dockerfile: rasa.Dockerfile
+      context: ./
+      args:
+        - RASA_X_VERSION
+    environment:
+      - RASA_HOME=/app
+    ports:
+      - "5005:5005"
+      - "5002:5002"
+    expose:
+      - "5002"
+    volumes:
+      - ./bot:/app
+    command: rasa x --no-prompt --endpoints endpoints.yml --credentials credentials.yml --port 5005 --cors "*" --debug
+  app:
+    image: "rasa/rasa-sdk:${RASA_SDK_VERSION}"
+    volumes:
+      - "./bot:/app/actions"
+    ports:
+      - "5055:5055"
+    expose:
+      - "5055"
+    depends_on:
+      - rasa-x
