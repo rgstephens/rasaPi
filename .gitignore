@@ -1,0 +1,6 @@
+bot/*
+results/
+*.py[cod]
+*$py.class
+*.png
+.history
