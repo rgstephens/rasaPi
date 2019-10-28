@@ -58,9 +58,11 @@ ERROR: No matching distribution found for tensorflow~=1.14.0 (from rasa==1.3.9->
 ERROR: Service 'rasa-x' failed to build: The command '/bin/sh -c if [ "$RASA_X_VERSION" != "stable" ] ; then pip install rasa-x=="$RASA_X_VERSION" --extra-index-url https://pypi.rasa.com/simple ; else pip install rasa-x --extra-index-url https://pypi.rasa.com/simple ; fi' returned a non-zero code: 1
 ```
 
-## Build TensorFlow for Pi
+## TensorFlow for Raspberry Pi
 
-Instructions are [here](https://www.tensorflow.org/install/source_rpi)
+Pre-built TensorFlow for Raspberry Pi can be found [here](tensorflow-1.14.0-cp35-none-linux_armv7l.whl).
+
+Instructions to build are [here](https://www.tensorflow.org/install/source_rpi).
 
 ```sh
 git clone https://github.com/tensorflow/tensorflow.git
@@ -69,4 +71,5 @@ git checkout r1.14
 CI_DOCKER_EXTRA_PARAMS="-e CI_BUILD_PYTHON=python3 -e CROSSTOOL_PYTHON_INCLUDE_PATH=/usr/include/python3.4" \
     tensorflow/tools/ci_build/ci_build.sh PI-PYTHON3 \
     tensorflow/tools/ci_build/pi/build_raspberry_pi.sh
+pip install tensorflow-1.14-cp34-none-linux_armv7l.whl
 ```

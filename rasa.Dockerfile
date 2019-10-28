@@ -19,10 +19,22 @@ RUN apt-get update -qq && \
       wget \
       curl \
       sudo \
-      python
+      python 
+#      openjdk-8-jdk automake autoconf \
+#      zip unzip libtool swig libpng-dev zlib1g-dev pkg-config git g++ xz-utils \
+#      python3-numpy python3-dev python3-pip python3-mock
+
+RUN pip install --upgrade pip
+
+#RUN pip3 install -U --user keras_applications==1.0.5 --no-deps
+#RUN pip3 install -U --user keras_preprocessing==1.0.3 --no-deps
 
 RUN curl -sSL -k "https://bootstrap.pypa.io/get-pip.py" -o "get-pip.py"
 RUN python get-pip.py
+
+RUN wget https://github.com/lhelontra/tensorflow-on-arm/releases/download/v1.14.0-buster/tensorflow-1.14.0-cp35-none-linux_armv7l.whl
+
+RUN pip install tensorflow-1.14.0-cp35-none-linux_armv7l.whl
 
 # install rasa
 RUN if [ "$RASA_X_VERSION" != "stable" ] ; then pip install rasa-x=="$RASA_X_VERSION" --extra-index-url https://pypi.rasa.com/simple ; else pip install rasa-x --extra-index-url https://pypi.rasa.com/simple ; fi
