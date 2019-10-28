@@ -13,24 +13,9 @@ https://apt.dockerproject.org/repo/ raspbian-RELEASE main
 ```
 
 ```sh
-sudo apt-get -y install software-properties-common
-dpkg --print-architecture
-sudo -E sh -c echo "deb [arch=armhf] https://download.docker.com/linux/raspbian $(lsb_release -cs) stable" > /etc/apt/sources.list.d/docker.list
-sudo apt-get update
-sudo apt-get install -y --no-install-recommends docker-ce=4.0
-sudo usermod -aG docker pi
-docker run hello-world
-sudo apt-get install -y libffi-dev
-sudo apt-get install -y python python-pip
-sudo pip install docker-compose
-docker-compose --version
-```
-
-If docker-compose issues an SSL related error message:
-
-```sh
-sudo pip uninstall backports.ssl-match-hostname
-sudo apt-get install python-backports.ssl-match-hostname
+sudo apt-get install -y docker.io
+sudo apt install python3-pip
+sudo pip3 install docker-compose
 ```
 
 ## Git Clone RasaPi
@@ -72,4 +57,27 @@ CI_DOCKER_EXTRA_PARAMS="-e CI_BUILD_PYTHON=python3 -e CROSSTOOL_PYTHON_INCLUDE_P
     tensorflow/tools/ci_build/ci_build.sh PI-PYTHON3 \
     tensorflow/tools/ci_build/pi/build_raspberry_pi.sh
 pip install tensorflow-1.14-cp34-none-linux_armv7l.whl
+```
+
+## Alternate Docker Install
+
+```sh
+sudo apt-get -y install software-properties-common
+dpkg --print-architecture
+sudo -E sh -c echo "deb [arch=armhf] https://download.docker.com/linux/raspbian $(lsb_release -cs) stable" > /etc/apt/sources.list.d/docker.list
+sudo apt-get update
+sudo apt-get install -y --no-install-recommends docker-ce=4.0
+sudo usermod -aG docker pi
+docker run hello-world
+sudo apt-get install -y libffi-dev
+sudo apt-get install -y python python-pip
+sudo pip install docker-compose
+docker-compose --version
+```
+
+If docker-compose issues an SSL related error message:
+
+```sh
+sudo pip uninstall backports.ssl-match-hostname
+sudo apt-get install python-backports.ssl-match-hostname
 ```
