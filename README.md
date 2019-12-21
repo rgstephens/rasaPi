@@ -1,4 +1,6 @@
-This repo sets up Rasa with Docker on a Raspberry Pi
+The goal of this project is to build a Raspberry Pi Docker image for Rasa as well as an associated docker-compose file.
+
+There are currently build issues. For more information, there is a discussion on the Rasa [forum](https://forum.rasa.com/t/running-rasa-on-the-rpi-4-with-raspbian-buster/20805/24)
 
 ## Install Docker & docker-compose
 
