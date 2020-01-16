@@ -26,7 +26,7 @@ python3.6 -m pip install --upgrade pip setuptools --user
 sudo apt-get install python3-pip libhdf5-dev -y
 
 # Install Tensorflow
-python3.6 -m pip install tensorflow==1.14.0 --user
+python3.6 -m pip install tensorflow==1.15.0 -v --user --extra-index-url https://www.piwheels.org/simple
 
 # Install OpenCV Dependencies
 sudo apt-get install build-essential cmake unzip pkg-config -y
@@ -39,54 +39,8 @@ sudo apt-get install libatlas-base-dev gfortran -y
 sudo apt-get install python3-dev -y
 
 # Download OpenCV and clarify naming scheme
-cd ~
-wget -O opencv.zip https://github.com/opencv/opencv/archive/4.0.0.zip
-wget -O opencv_contrib.zip https://github.com/opencv/opencv_contrib/archive/4.0.0.zip
-unzip opencv.zip
-unzip opencv_contrib.zip
-mv opencv-4.0.0 opencv
-mv opencv_contrib-4.0.0 opencv_contrib
-
-cd ~/opencv
-mkdir build
-cd build
-
-cmake -D CMAKE_BUILD_TYPE=RELEASE \
-    -D CMAKE_INSTALL_PREFIX=/usr/local \
-    -D OPENCV_EXTRA_MODULES_PATH=~/opencv_contrib/modules \
-    -D ENABLE_NEON=ON \
-    -D ENABLE_VFPV3=ON \
-    -D BUILD_TESTS=OFF \
-    -D OPENCV_ENABLE_NONFREE=ON \
-    -D INSTALL_PYTHON_EXAMPLES=OFF \
-    -D BUILD_EXAMPLES=OFF ..
-
-# Increasing swap size to make OpenCV
-SWAPSIZE=2048
-sed -i "s/^CONF_SWAPSIZE.*/CONF_SWAPSIZE=${SWAPSIZE}/" /etc/dphys-swapfile
-
-# Restarting swap service
-sudo /etc/init.d/dphys-swapfile stop
-sudo /etc/init.d/dphys-swapfile start
-
-# Make OpenCV
-make -j4
-
-# Install OpenCV
-sudo make install
-sudo ldconfig
-
-# Reseting swap size
-SWAPSIZE=100
-sed -i "s/^CONF_SWAPSIZE.*/CONF_SWAPSIZE=${SWAPSIZE}/" /etc/dphys-swapfile
-
-# Restarting swap service
-sudo /etc/init.d/dphys-swapfile stop
-sudo /etc/init.d/dphys-swapfile start
-
-# Link cv2 to Python3.6
-cd /usr/local/lib/python3.6/site-packages/
-sudo ln -s /usr/local/python/cv2/python-3.6/cv2.cpython-36m-arm-linux-gnueabihf.so cv2.so
+sudo apt install -y libpango-1.0-0 libatk1.0-0 libcairo-gobject2 libpangocairo-1.0-0 libqt4-test libtiff5 libqtcore4 libwebp6 libavcodec58 libavutil56 libqtgui4 libavformat58 libgdk-pixbuf2.0-0 libgtk-3-0 libilmbase23 libcairo2 libswscale5 libopenexr23
+sudo python3.6 -m pip install opencv-python
 
 # In case git is not installed
 sudo apt-get install git -y
@@ -94,17 +48,12 @@ sudo apt-get install git -y
 # Getting codebases for spaCy, tensor2tensor, and RASA
 # NOTE: This is hard-coded for rasa-1.4.0 right now - let's make it more elegant soon
 cd ~
-git clone https://github.com/explosion/spaCy
 git clone https://github.com/tensorflow/tensor2tensor
 git clone https://github.com/google/dopamine.git
-wget https://github.com/RasaHQ/rasa/archive/1.4.0.zip && unzip 1.4.0.zip 
+wget https://github.com/RasaHQ/rasa/archive/1.6.1.zip && unzip 1.6.1.zip
 
 # Installing spaCy
-export BLIS_ARCH=generic
-cd ~/spaCy
-python3.6 -m pip install -r requirements.txt --user
-python3.6 setup.py build_ext --inplace
-python3.6 -m pip install . --user
+python3.6 -m pip install spacy
 
 # Installing dopamine-rl
 cd ~/dopamine
@@ -122,9 +71,13 @@ sudo apt install libpq-dev/buster -y
 python3.6 -m pip install psycopg2 --user
 
 # Installing RASA
-cd ~/rasa-1.4.0
+cd ~/rasa-1.6.1
 sed -i '/tensor2tensor/d' setup.py
 sed -i '/tensor2tensor/d' requirements.txt
+sed -i '/tensorflow~=1.15.0/d' setup.py
+sed -i '/tensorflow~=1.15.0/d' requirements.txt
+sed -i '/tensorflow==1.15.0/d' setup.py
+sed -i '/tensorflow==1.15.0/d' requirements.txt
 python3.6 -m pip install -r requirements.txt --user --force-reinstall
 python3.6 -m pip install . --user --force-reinstall
 
