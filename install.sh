@@ -115,6 +115,7 @@ python3.6 -m pip install . --user
 
 # Installing tensor2tensor
 cd ~/tensor2tensor
+git checkout tags/v1.14.1
 sed -i '/opencv-python/d' setup.py
 sed -i '/dopamine-rl/d' setup.py
 python3.6 -m pip install . --user --force-reinstall
