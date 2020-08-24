@@ -108,6 +108,8 @@ python3.6 -m pip install . --user
 
 # Installing dopamine-rl
 cd ~/dopamine
+# Use v2 instead of master, since it has different set of requirements
+git checkout tags/v2
 sed -i '/opencv-python/d' setup.py
 python3.6 -m pip install . --user
 
