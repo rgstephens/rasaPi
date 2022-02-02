@@ -1,3 +1,5 @@
+I'm archiving this repo as of Feb 2022. Go to the Rasa Forum. There are more recent [posts](https://forum.rasa.com/search?q=raspberry%20pi) on this topic there.
+
 The goal of this repo is to create a Docker image for Rasa on a Raspberry Pi. It is a work in process.
 
 Files:
